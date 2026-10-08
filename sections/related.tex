@@ -1,0 +1,10 @@
+\section{Related Work}
+
+\paragraph{Learned action and world-action models.}
+OpenVLA learns an action policy from robot demonstrations and supports adaptation through fine-tuning~\citep{kim2024openvla}. DreamZero explores a WAM based on a pretrained video diffusion backbone with joint future-state and action prediction~\citep{ye2026dreamzero}. These works study routes to generalization through learned action generation. \zyra\ instead keeps a general-purpose VLM as the decision maker and derives execution targets through explicit measurements and programs. We do not evaluate a WAM baseline in this report, so the architectural comparison is not a measured performance ranking against WAMs.
+
+\paragraph{Programs and embodied harnesses.}
+Code as Policies established language-model-generated programs for embodied control, including waypoint-based behavior~\citep{liang2022code}. CaP-X studies coding agents across perception/control abstraction levels and test-time interaction~\citep{fu2026capx}. Guava provides a manipulation harness and distills frontier-model interaction behavior into a compact agent~\citep{liu2026guava}. These works are close precedents. Our distinguishing emphasis is the integration of measured object geometry and requested local measurements with freely composed waypoint programs carrying execution conditions. The main experimental question is how well this concrete interface supports zero-shot task and position changes. The report does not claim to be the first use of VLMs, tool feedback, or code generation in robotics.
+
+\paragraph{Generalization benchmarks.}
+LIBERO provides manipulation tasks for studying knowledge transfer~\citep{liu2023libero}. LIBERO-PRO and LIBERO-Plus extend evaluation to changed task conditions and systematic perturbations~\citep{zhou2025liberopro,fei2025liberoplus}. They motivate separating standard-task scores from evidence of robustness. \zyra\ currently reports position and task perturbations for the open agent, while wider open-agent LIBERO-Plus evaluation remains in progress.

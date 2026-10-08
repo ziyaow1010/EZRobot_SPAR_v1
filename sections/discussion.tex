@@ -1,0 +1,35 @@
+\section{Product Performance and Next-Generation Priorities}
+\label{sec:discussion}
+
+\subsection{Inference Cost and Latency}
+The present product bottleneck is frontier-model inference. Sparse planning reduces the frequency of large-model decisions relative to per-control-step reasoning, but each serial call can still dominate the time a user waits. Triage, requested measurements, program repair, and outcome review all contribute. Claude Code additionally mediates requests through a command-line process and image-reading tools. Its reported usage is an API-equivalent estimate, not necessarily the cash cost of a subscription-backed deployment.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Recorded run & Calls/episode & USD-equivalent/episode \\
+\midrule
+Open-agent v9, standard LIBERO sample & 4.1 & 0.74 \\
+Open-agent v9, six LIBERO-PRO conditions & 3.5--5 & 0.67 \\
+\bottomrule
+\end{tabular}
+\caption{Available model-use accounting from the recorded evaluations. The LIBERO-PRO call count is a reported range across conditions. These costs describe the evaluated backend, not a deployment price guarantee.}
+\label{tab:cost}
+\end{table}
+
+For an episode with model requests $j=1,\ldots,N$, a useful product accounting separates
+\begin{equation}
+ T_{\mathrm{total}} = T_{\mathrm{capture/geometry}} + \sum_{j=1}^{N}T_j^{\mathrm{request}} + T_{\mathrm{motion}} + T_{\mathrm{other}}.
+\end{equation}
+End-to-end latency should include failed attempts and reviews, and be summarized by median and tail percentiles. Cost per successful task should be computed as total cost across all attempted episodes divided by the number of successful episodes; averaging costs only over successes hides expenditure on failures. The available v9 notes do not provide a complete latency distribution, so this draft makes no quantitative v9 speed claim.
+
+\subsection{Optimization Without Changing the Core Route}
+Our next-generation priorities preserve the measured-program interface. First, direct model transport can separate model latency from CLI and tool overhead; its quality must be checked on the same frozen episodes rather than assumed. Second, simple tasks may bypass a separate triage request, and measurement requests can be batched. Third, prompts and structured outputs can be shortened while retaining the fields needed for physical execution and verification. Fourth, a lower-cost model can handle straightforward decisions with escalation on uncertainty or failure. These are planned interventions, not measured improvements in this report.
+
+Stable prompts and reusable geometry can be cached only when their assumptions remain valid. Scene measurements become stale after motion, and command reuse across changed objects or layouts requires re-grounding. Any optimization should be evaluated against success, false completion claims, total latency, and cost per successful task. An agent that answers faster but repeats failed grasps can increase deployment cost.
+
+\subsection{Generalization as a Testable Product Property}
+The product vision is a robot that adapts to new requests through understanding and interaction. Evidence should therefore be organized by what changes: object instances, layouts, instructions, task compositions, environments, and robot embodiments. Standard-suite performance measures competence on available tasks; perturbation performance tests selected forms of robustness. Hardware deployment tests a different sensing and execution stack. None alone proves arbitrary generalization.
+
+The current evaluation does not cover high-frequency dynamic manipulation, deformables, dexterous in-hand skills, or arbitrary unstructured contact. The program executor relies on engineered geometry and controller behavior, and the open agent currently reasons from a fixed side view. A development-linked benchmark sample also cannot replace a newly frozen independent evaluation. Full-scale held-out runs and controlled interface ablations are the next evidence priorities. Our long-term claim is an architectural hypothesis about the route to general robotics; the present empirical claim is strong zero-shot performance within the recorded tasks and perturbations.

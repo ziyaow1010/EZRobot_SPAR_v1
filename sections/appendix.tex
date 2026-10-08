@@ -1,0 +1,25 @@
+\section{Implementation and Reproduction Details}
+
+The open agent resides in \texttt{src/spar/open}: \texttt{agent.py} implements reasoning rounds, \texttt{measure.py} implements object geometry and point measurement, and \texttt{program.py} implements program validation and execution. The fixed-skill route resides in \texttt{src/spar/agent}. Shared perception, planning, skills, and backends reside in their corresponding packages. The evaluation harness lives in \texttt{spar\_bench}; the hardware cell lives in \texttt{spar\_real}.
+
+The main open-agent configuration uses at most three execution rounds, 24 waypoints, and eight requested points per call. Geometry uses a $256\times256$ simulation depth image; the model sees a separate 1024-pixel render of the same camera. The served model recorded for the standard v9 evaluation is \texttt{claude-opus-5-5}; the configuration itself uses the \texttt{opus} alias. For the LIBERO-PRO run, the report notes a Claude Opus backend but does not enumerate exact served identifiers. Exact served-model identifiers should be recovered from per-call records for every final evaluation.
+
+The standard v9 result is associated with implementation revision \texttt{600fe26}; the LIBERO-PRO result with \texttt{01215c2}. The supplied source snapshot is \texttt{3b298125fab3f9db4234648853329459010d1b3a}. These identifiers are provenance recorded by the source archive and experiment notes; they are not claims that all tables were generated from the supplied snapshot.
+
+\begin{table}[h]
+\centering\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule
+Evidence item & Current draft includes & Required update \\
+\midrule
+Standard LIBERO & v9 subset; any-step and final-state totals & Full protocol, episode archive, frozen test manifest \\
+LIBERO-PRO & Six v9 conditions; published baseline table & Full-size runs, input/model alignment, raw records \\
+LIBERO-Plus & Earlier Object/robot-state subset & Current open-agent results by perturbation family \\
+Real robot & Hardware route and qualitative execution & Tasks, counted trials, interventions, videos \\
+Efficiency & Calls and API-equivalent cost & Latency percentiles, actual charges, per-success cost \\
+Mechanisms & Version comparison and implementation & Controlled geometry/feedback/knowledge ablations \\
+\bottomrule
+\end{tabularx}
+\caption{Evidence status for completing the first public report. Pending measurements are not substituted with estimated scores.}
+\end{table}
+

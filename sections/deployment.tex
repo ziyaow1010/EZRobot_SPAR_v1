@@ -1,0 +1,14 @@
+\section{Real-Laboratory Deployment}
+\label{sec:real}
+
+The shared stack has been deployed on a UFACTORY 850 arm with an xArm parallel-jaw gripper, a fixed RealSense D435, and a wrist-mounted D435. A Jetson host runs the perception and robot interface; the current planner is accessed through Claude Code. The system has executed zero-shot pick-and-place in the laboratory, demonstrating a hardware deployment of the shared architecture.
+
+The hardware route in the supplied configuration is the pick-and-place agent. Its simulation logic is retained while the backend changes to real sensing and controller-managed Cartesian motion. Camera-to-base transforms are obtained through markerless scene alignment or board-based hand-eye calibration. The documented markerless check used four matched objects and obtained 3.1 mm alignment RMS, with a separate fingertip consistency check within approximately 1 mm horizontally and 6 mm vertically. These are calibration diagnostics, not manipulation success statistics.
+
+Real depth is noisier and incomplete. The side geometry image is pooled to $640\times360$ from $1280\times720$ using temporal and block medians. Wrist observations are always used to confirm the grasp because side views underestimate visible object widths and wrist depth is cleaner at the shorter working distance. The backend uses a fingertip TCP convention and converts controller flange poses accordingly.
+
+\paragraph{Current evidence.}
+The report includes qualitative deployment capability; it does not yet contain a counted real-robot evaluation or a claim of open-agent articulated manipulation on hardware. The completed task list, number of attempts, success definitions, interventions, and video examples should be added from the actual run records. Camera calibration and configuration changes must be disclosed alongside the absence of task demonstrations or model fine-tuning.
+
+\paragraph{Execution boundary.}
+Motion must be enabled explicitly. The real backend rejects targets outside its configured workspace, preserves controller-side constraints, and latches nonrecoverable controller errors. The application can request operator confirmation. These mechanisms support supervised deployment but do not guarantee collision-free trajectories or force-safe contact. In particular, transferring the open agent's simulation stall logic to hardware requires validating how controller timeouts and contact faults are represented.

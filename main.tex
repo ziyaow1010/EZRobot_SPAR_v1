@@ -1,14 +1,51 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\hypersetup{pdftitle={Zyra: A Zero-Shot Robot Manipulation Agent with Sparse Action Programs},pdfauthor={Ziyao Wang},pdfsubject={EZRobot first-generation system technical report draft}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small EZRobot \textbar\ Zyra v1}
+\rhead{\small Technical report draft}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
+\newcommand{\zyra}{Zyra}
+\newcommand{\draftnote}[1]{\par\smallskip\noindent\fcolorbox{orange!40}{orange!6}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small\textbf{Draft status.} #1}}\par\smallskip}
 
-\title{EZRobot_SPAR_v1}
-\author{Ziyao Wang}
+\title{\textbf{Zyra: A Zero-Shot Robot Manipulation Agent\\with Sparse Action Programs}\\[0.5em]\large EZRobot First-Generation System Technical Report}
+\author{Ziyao Wang\\EZRobot}
 \date{October 2026}
 
 \begin{document}
-
 \maketitle
+\begin{abstract}
+We present \zyra, the first-generation EZRobot manipulation system, built around a general-purpose vision-language model (VLM) rather than a vision-language-action (VLA) policy or a world action model (WAM). Our premise is that robots can acquire broad task competence by combining a foundation model's understanding and program-generation capabilities with measured geometry and closed-loop execution. \zyra\ provides the model with a numbered scene, a table of RGB-D-derived object geometry, and an on-demand measurement interface. The model produces sparse waypoint programs with explicit orientation, gripper, precision, and failure-handling requirements. Execution returns physical feedback for verification and replanning. The system uses no target-task demonstrations or task-specific model training. The current open agent achieves 89/100 successes across four LIBERO suites and 268/300 on six LIBERO-PRO position and task perturbation conditions, with approximately four model calls per episode. Its reported position and task averages are 87.3\% and 91.3\%, compared with published GPT-5.4/Guava-harness averages of 45\% and 44\%; these are cross-system comparisons with different models and evaluation sample sizes. A shared perception and control stack has also been deployed for zero-shot pick-and-place in a real laboratory. This report describes the architecture, available evaluation evidence, deployment experience, and the inference-cost and latency constraints that shape the next generation.
+\end{abstract}
 
-\section{Introduction}
+\draftnote{Working manuscript based on the implementation snapshot supplied on October 8, 2026. Simulation tables reproduce the recorded v9 evaluations. Full-scale evaluation, current open-agent LIBERO-Plus results, real-robot trial statistics, and the complete author list remain to be incorporated.}
 
+\input{sections/introduction}
+\input{sections/method}
+\input{sections/evaluation}
+\input{sections/deployment}
+\input{sections/discussion}
+\input{sections/related}
+\input{sections/conclusion}
+\bibliographystyle{plainnat}
+\bibliography{references}
+\appendix
+\input{sections/appendix}
 \end{document}

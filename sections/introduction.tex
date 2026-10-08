@@ -1,0 +1,24 @@
+\section{Introduction}
+\label{sec:intro}
+
+A robot operating in a laboratory or a home encounters objects, layouts, and instructions that change continually. A request may refer to a new container, require an unfamiliar sequence of familiar motions, or place an object outside the positions represented in training. The central deployment question is whether the system can interpret the new situation and act without another cycle of task-specific data collection and policy training.
+
+VLA policies such as OpenVLA~\citep{kim2024openvla} learn action prediction from robot demonstrations. WAMs such as DreamZero~\citep{ye2026dreamzero} couple action generation with prediction of future visual states. These approaches offer important capabilities, but they also motivate a different architectural question: \emph{can a general-purpose VLM remain the robot's decision maker, with physical action obtained through measured geometry and explicit programs?} Robustness studies on LIBERO-PRO and LIBERO-Plus show why this question matters: high scores in standard environments do not by themselves establish reliability under changed positions, viewpoints, or task conditions~\citep{zhou2025liberopro,fei2025liberoplus}.
+
+Our long-term objective is to establish a VLM-centered alternative to both VLA and WAM architectures for general robot manipulation. We hypothesize that a foundation model's understanding and output capabilities can support adaptation at runtime: interpret an instruction, request the physical quantities needed to act, compose a program, and revise it from execution feedback. The first-generation EZRobot system, \zyra, implements this hypothesis without a VLA action head, a learned action-generating world model, or target-task demonstrations.
+
+The key interface connects reasoning to physical quantities. A VLM can recognize a drawer or a bowl, but an image alone does not provide a reliable metric displacement or grasp center. \zyra\ gives the model measured positions, dimensions, and local surface geometry in the robot base frame. The model uses these measurements to generate a sparse program of end-effector waypoints. Each waypoint specifies motion and execution conditions; a conventional controller performs the high-frequency servoing. The next reasoning round sees the scene before and after execution, fresh geometry, and a structured log describing arrival errors, stalled motion, and finger gaps.
+
+The current system contains two agents sharing the same perception, robot interface, and execution infrastructure. The \emph{open agent} is the main simulation method and synthesizes waypoint programs for grasping, placement, pushing, and articulated manipulation. A frozen \emph{pick-and-place agent} uses typed skill contracts and is the current real-robot deployment path. We distinguish these agents throughout the report so that evidence from one is not attributed to the other.
+
+The present report makes three contributions:
+\begin{itemize}
+\item A concrete VLM-centered manipulation architecture that connects general-purpose reasoning to RGB-D measurements and sparse programs without target-task policy training.
+\item An executable action interface with waypoint-level precision, abort, grip-retention, and end-stop requirements, together with feedback-conditioned verification and recovery.
+\item Initial quantitative evidence across standard and perturbed simulation tasks, plus a real-laboratory deployment of the shared stack, and an accounting of the cost and latency challenges of frontier-model inference.
+\end{itemize}
+
+The measured results support this architectural direction within the evaluated tabletop tasks. They do not establish unrestricted manipulation, universal replacement of trained policies, or robustness to every form of distribution shift. Our product goal is broader than this first evaluation; the report separates demonstrated capability from that goal.
+
+\paragraph{Meaning of zero-shot.}
+We use \emph{zero-shot} to mean that no demonstrations from the evaluated target tasks are used for model training and no target-task model fine-tuning is performed. \zyra\ does use a pretrained VLM, engineered perception and control, robot calibration, and written manipulation guidance. Foundation-model pretraining data are outside our control. System development on benchmark scenes is disclosed separately from task-specific model training.

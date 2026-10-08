@@ -1,0 +1,78 @@
+\section{System Architecture}
+\label{sec:method}
+
+\subsection{Reason, Measure, Program, and Execute}
+At reasoning round $r$, the system observes RGB-D data and robot self-state, denoted $o_r$. A geometric perception module produces an object table $G_r$. The VLM receives the instruction $\ell$, the image, $G_r$, selected manipulation knowledge $K_r$, and execution history $H_r$. Its output is either a measurement request, a waypoint program, or a task verdict:
+\begin{equation}
+ y_r = F_\theta(\ell,o_r,G_r,K_r,H_r).
+\end{equation}
+The parameters $\theta$ remain fixed. Measurement requests are answered from the current calibrated depth observation, after which the model is queried again. A valid program is executed by the robot backend. Physical execution updates the scene and yields a log $L_r$, which is included in the next round. The main configuration permits up to three execution rounds and a final review round. Each round can contain multiple model requests, so a round is not equivalent to one model call.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[node distance=7mm and 10mm,>=Latex,
+ box/.style={draw=blue!45!black,fill=blue!3,rounded corners=2pt,align=center,text width=5.6cm,minimum height=10mm,font=\small},
+ arrow/.style={->,thick,draw=blue!60!black}]
+\node[box] (obs) {Instruction + calibrated RGB-D + robot state};
+\node[box,below=of obs] (geo) {Numbered objects and measured 3D geometry};
+\node[box,below=of geo] (vlm) {VLM reasoning + selected manipulation knowledge};
+\node[box,below left=10mm and 2mm of vlm,text width=3.6cm] (measure) {On-demand point measurements};
+\node[box,below right=10mm and 2mm of vlm,text width=3.6cm] (program) {Sparse waypoint program + execution conditions};
+\node[box,below=26mm of vlm] (exec) {Closed-loop execution and structured physical feedback};
+\draw[arrow] (obs)--(geo);
+\draw[arrow] (geo)--(vlm);
+\draw[arrow] (vlm)--(measure);
+\draw[arrow] (measure.west) -- ++(-0.5,0) |- (vlm.west);
+\draw[arrow] (vlm)--(program);
+\draw[arrow] (program)--(exec);
+\draw[arrow] (exec.east) -- ++(2.0,0) |- node[pos=.65,right,font=\small,align=left] {Re-observe\\and replan} (obs.east);
+\end{tikzpicture}
+\caption{The main open-agent loop. Geometry is obtained through perception and measurement; the VLM chooses and parameterizes the operation; the backend handles servoing. Benchmark goal labels are used only by the evaluator.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Measured Scene Geometry}
+For a depth pixel $(u,v)$ with depth $d$ and calibrated intrinsic matrix $K$, a surface point is mapped into the robot base frame by
+\begin{equation}
+ \begin{bmatrix}p_{\mathrm{base}}\\1\end{bmatrix}
+ = T_{\mathrm{base}\leftarrow\mathrm{camera}}
+ \begin{bmatrix}dK^{-1}[u,v,1]^\top\\1\end{bmatrix}.
+\end{equation}
+Depth components above an estimated support plane produce a class-agnostic object table. Entries include visible bounds, top height and center, and narrow/wide planar axes and widths. Objects are numbered on the image; the numbers carry no semantic identity, and the VLM associates entries with the instruction. The implementation limits the table to 14 entries. Thin surfaces and large fixtures may be absent, so the table is complemented by requested measurements.
+
+Single-view geometry can systematically underestimate an object's center. A camera observes the near side of a can or bowl, whose surface centroid differs from the object's physical axis. For vertically oriented round objects, v9 fits a shared planar center across thin height slices using robust least squares: points within a slice should have approximately equal radial distance from that center. The inferred axis completes the round body's center and bounds. Regions with consistent axes can be merged, preventing the walls of one bowl from appearing as unrelated objects. This is a geometric prior about shape, not a semantic object detector or an oracle object pose.
+
+For parts outside the object table, the VLM marks image pixels. A measurement returns a robust local 3D point, height above the table, a fitted surface normal where supported, and local principal directions and extents. The implementation permits up to eight requested points per call. The model computes action targets from these quantities. Target positions include planned offsets and displacements, so they are \emph{derived from} measurements rather than all being directly observed surface coordinates. Measurement provenance is encouraged through a textual calculation field; the current implementation does not formally prove that every generated coordinate follows from the supplied measurements.
+
+\subsection{Sparse Programs and Execution Conditions}
+A program contains an ordered list of end-effector waypoints. Each waypoint specifies a metric position $p_i$, approach direction $a_i$, closing axis $c_i$, gripper state after arrival, and execution conditions. The orientation is constructed from the approach and closing directions. Validation rejects malformed or non-finite vectors, degenerate orientations, nominal positions outside configured workspace bounds, and targets outside a configured reach approximation. The main configuration allows at most 24 waypoints.
+
+\begin{table}[t]
+\centering\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Execution meaning \\
+\midrule
+\texttt{precision} & Fine arrival: 4 mm position and 0.08 rad rotation; coarse transit: 2 cm and 0.2 rad. \\
+\texttt{if\_blocked} & Abort subsequent waypoints when arrival fails, or continue when contact is intended. \\
+\texttt{must\_hold} & Require an occupied finger gap after closing; abort later motion if the gap indicates grip loss. \\
+\texttt{until\_blocked} & Extend the move up to 10 cm beyond its nominal point and report stalled motion and measured travel. \\
+\bottomrule
+\end{tabularx}
+\caption{Waypoint-level requirements in the current open-agent executor. These conditions make intent and failures inspectable; they do not constitute a formal collision-free motion guarantee.}
+\label{tab:contract}
+\end{table}
+
+The controller follows Cartesian targets while maintaining the current gripper state, then applies the requested gripper transition. Motion is monitored in short windows. Lack of positional and rotational progress ends a segment early and is recorded as a stall. Finger gap provides a coarse indication of whether something is held. Neither stall nor finger gap is a direct force/contact measurement: a stall can reflect an obstacle, a joint constraint, or an intended end stop, and a nonzero gap does not guarantee a stable grasp.
+
+Sparse programs separate model reasoning frequency from control frequency. A single program may contain a grasp, transport, placement, and retreat, or approximate an articulated motion with several short segments. The system logs each segment and returns the arm toward its start pose so the fixed camera can observe the outcome. Returning home also consumes control budget and can change the final task state; the evaluation therefore records both any-step and final-state success.
+
+\subsection{Feedback, Knowledge, and Recovery}
+Before the initial program, a triage call identifies likely difficulties and selects short manipulation notes. The library covers articulated parts, containers, grip security, flat objects, hand clearance, blocked moves, pushing, reach posture, spatial relations, surface support, and multi-step tasks. These notes describe reusable physical considerations. They are engineered priors and are included in the system's zero-shot definition.
+
+Later rounds receive the earlier image, current image and geometry, the previous program, and waypoint feedback. The agent may request fresh measurements, choose a different contact or approach, or complete the remaining subtask. Contact-related failures can additionally retrieve blocked-motion guidance. Task completion is the model's own verdict, conditioned on available measurements and logs. It is not an independently verified certificate of success; comparison against the external evaluator exposes its errors.
+
+\subsection{Shared Stack and Real-Robot Path}
+The earlier pick-and-place agent asks the VLM for semantic objects, 2D target prompts, and typed skill calls. Geometric grounding compiles these into grasp and placement poses. Active wrist observations address uncertain side views; obstacle relocation and retries are available. This agent uses fixed skill contracts rather than freely generated waypoint programs. It is retained as the current hardware path and as a separately versioned reference system.
+
+The robot interface exposes calibrated images, depth, robot self-state, TCP servoing, and gripper actuation. Benchmark construction, oracle segmentation, and goal predicates are confined to the evaluation harness. Source-isolation tests prohibit the method package from importing the benchmark package. This is an engineering separation, not a security sandbox: the simulation backend necessarily accesses the simulator for sensor rendering, robot state, and calibration, but the agent's observation interface contains no benchmark object identities or goal labels.

@@ -1,0 +1,71 @@
+\section{Simulation Evaluation}
+\label{sec:eval}
+
+\subsection{Protocol and Evidence Scope}
+The main results concern open-agent v9 with Claude Opus through the Claude Code CLI. The system receives no target-task demonstrations and performs no task-specific model training. LIBERO~\citep{liu2023libero} supplies the standard manipulation suites, and LIBERO-PRO~\citep{zhou2025liberopro} supplies position and task perturbations. We use the suite-specific post-settling control budgets: 220 steps for Spatial, 280 for Object, 300 for Goal, and 520 for Long. Perturbed tasks inherit the corresponding suite budget.
+
+\emph{Standard success} means the LIBERO BDDL goal predicate is reached at some recorded control step within budget. \emph{Final-state success} means it still holds when the agent finishes. The agent does not receive this predicate. Its own completion claim is tracked separately. Infrastructure failures are retried by the harness and are not counted as manipulation failures; consequently the task success rates are conditional on completed evaluation episodes rather than a measure of service availability.
+
+The standard-suite sample contains 25 episodes per suite: initial states 15--16 for every task, and state 17 for tasks 0--4. Thus it spans 40 tasks with two or three initial states per task. It is a development-linked evaluation sample, not a newly frozen independent test: these episodes were also used to compare v8 and v9 after failure analysis. LIBERO-PRO uses tasks 0--9 and initial states 0--4 for each condition, yielding 50 episodes per condition. Full-protocol evaluations are in progress. Results in this draft reproduce the recorded runs; raw episode archives are not included with the manuscript.
+
+\subsection{Four Standard LIBERO Suites}
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Suite & Successes & Trials & Success rate \\
+\midrule
+Spatial & 22 & 25 & 88\% \\
+Object & 25 & 25 & 100\% \\
+Goal & 20 & 25 & 80\% \\
+Long & 22 & 25 & 88\% \\
+\midrule
+Overall & 89 & 100 & \textbf{89\%} \\
+\bottomrule
+\end{tabular}
+\caption{Open-agent v9 on the available standard LIBERO sample. Final-state success is 87/100 overall. The subset is smaller than the common 50-trials-per-task evaluation and should not be treated as a full leaderboard submission.}
+\label{tab:libero}
+\end{table}
+
+Table~\ref{tab:libero} shows competence across grasping, spatial relations, articulated tasks, and long-horizon compositions with one agent configuration. The 89\% aggregate is evidence of broad capability across this sample. It does not demonstrate superiority over the highest standard-suite VLA results, and the Object score alone is not sufficient to characterize general manipulation.
+
+The recorded v8-to-v9 comparison improves standard success from 76/100 to 89/100 and final-state success from 71/100 to 87/100. Seventeen episodes change from failure to success and four in the opposite direction. However, v9 changes both geometric perception and execution behavior, and the served model for v8 was not recorded. We therefore present this as a system-version comparison, not a controlled estimate of the causal effect of one component.
+
+\subsection{LIBERO-PRO: Changed Positions and Tasks}
+\begin{table}[t]
+\centering\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+Suite & Perturbation & \zyra & GPT-5.4 & Guava-4B & $\pi_{0.5}$ & CaP-Agent0 \\
+\midrule
+Object & Position & \textbf{98} & 61 & 60 & 17 & 22 \\
+Object & Task & \textbf{100} & 57 & 60 & 1 & 18 \\
+Goal & Position & \textbf{84} & 44 & 39 & 38 & 26 \\
+Goal & Task & \textbf{82} & 47 & 38 & 0 & 17 \\
+Spatial & Position & \textbf{80} & 29 & 25 & 20 & 12 \\
+Spatial & Task & \textbf{92} & 26 & 26 & 1 & 14 \\
+\midrule
+Average & Position & \textbf{87.3} & 45 & 41 & 25 & 20 \\
+Average & Task & \textbf{91.3} & 44 & 41 & 1 & 16 \\
+\bottomrule
+\end{tabular}
+\caption{Success rates (\%) on six LIBERO-PRO conditions. \zyra\ uses 50 episodes per condition. All other columns reproduce Table 3 of Guava~\citep{liu2026guava}; its $\pi_{0.5}$ and CaP-Agent0 values are in turn attributed to CaP-X~\citep{fu2026capx}. Published averages are rounded as in their source. Baselines were not rerun in our environment.}
+\label{tab:pro}
+\end{table}
+
+\zyra\ succeeds in 131/150 position-perturbation episodes and 137/150 task-perturbation episodes, for 268/300 overall. The same prompt and agent serve all six conditions. This provides initial evidence that changing where objects start or what the instruction requires can be handled through runtime interpretation and geometric grounding, without adapting model weights.
+
+The position and task averages exceed the published GPT-5.4/Guava-harness averages by approximately 42 and 47 percentage points, respectively. The differences are large across all six reported conditions. They are \emph{cross-system observations}: \zyra\ uses Claude Opus, the baselines use other models and interfaces, evaluation sample sizes differ, and observation resolutions and depth/geometry access must be aligned for an interface-only comparison. The current results cannot isolate how much of the gap comes from the VLM, metric grounding, program interface, or recovery logic.
+
+Under the stricter final-state reading, successes are 49, 50, 41, 34, 40, and 46 in the row order of Table~\ref{tab:pro}, totaling 260/300. The largest standard-to-final difference occurs in Goal/Task. Reporting both readings reveals cases where the goal is attained temporarily and later lost; it avoids equating transient attainment with a stable completed task.
+
+\subsection{Earlier Pick-and-Place Results and LIBERO-Plus}
+The separately frozen pick-and-place route achieved 99/100 within-budget successes on a held-out LIBERO-Object sample. Its initial-position LIBERO-PRO run achieved 45/50, and its LIBERO-Plus robot-initial-state sample achieved 85/100. The latter covers 100 Object-suite variants stratified across five difficulty levels, with 19/20, 20/20, 17/20, 17/20, and 12/20 successes. These results belong to the earlier agent and are not included in the v9 main tables.
+
+LIBERO-Plus~\citep{fei2025liberoplus} enables a wider investigation of layout, camera, robot-state, language, lighting, texture, and sensor changes. The supplied snapshot describes current open-agent evaluation as in progress. We will incorporate its complete task manifest and quantitative results when available. The earlier Object/robot-state subset cannot be compared directly with published all-suite averages or used to claim robustness across every perturbation family.
+
+\subsection{Failure Analysis}
+The recorded standard-suite v9 failures include unsuccessful stove-knob manipulation, failed placement into the microwave, difficulty extracting a bowl from the top drawer, plate pushing, and a drawer-plus-bowl task. Three episodes claim completion despite failing the evaluator: a drawer opens insufficiently, a bowl lies just outside the plate-center tolerance, and a pudding box misses a benchmark-defined spatial region.
+
+Two recurring mechanisms explain these failures. First, physical execution can fail because the whole hand contacts nearby geometry, a grip slips, or the selected approach is ineffective. Second, the measured or inferred scene quantities may not support sufficiently precise verification. Single-view surface geometry is incomplete, and a physical object center need not equal the benchmark's model origin. The current executor can detect stalled motion but cannot reliably distinguish a desired end stop from an unintended jam. A retry then consumes the remaining control budget. These failure modes motivate better geometry and physical feedback rather than instruction changes alone.
