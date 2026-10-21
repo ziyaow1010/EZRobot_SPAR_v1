@@ -22,15 +22,18 @@
 \definecolor{CaseBlack}{HTML}{121212}
 \definecolor{CaseGrey}{HTML}{888888}
 \color{CaseBlack}
-\setmainfont{Linux Libertine O}[Ligatures=TeX]
-\setsansfont{Linux Libertine Display O}
-\setmonofont{Nimbus Mono PS}[Scale=.91]
-\newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
+% Whole-document Rockwell trial: body Regular, headings Bold.
+% Rockwell requires a licensed system installation; Roboto Slab is the fallback.
 \IfFontExistsTF{Rockwell}{%
+  \setmainfont{Rockwell}[BoldFont={Rockwell Bold},Ligatures=TeX]%
   \newfontfamily\casetitle{Rockwell}[BoldFont={Rockwell Bold}]%
 }{%
-  \newfontfamily\casetitle{Roboto Slab}[BoldFont={Roboto Slab Bold}]%
+  \setmainfont{Roboto Slab}[Ligatures=TeX]%
+  \newfontfamily\casetitle{Roboto Slab}[Ligatures=TeX]%
 }
+\setsansfont{Latin Modern Sans}
+\setmonofont{Nimbus Mono PS}[Scale=.91]
+\newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
 \newcommand{\zyra}{Zyra}
 \newcommand{\CaseTitle}{Untitled}
 \newcommand{\CaseAuthors}{CaseLab}
