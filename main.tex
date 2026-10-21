@@ -37,12 +37,14 @@
 \renewcommand{\CaseNumber}{CL--TR--2026--01}
 \renewcommand{\CaseShortTitle}{Zyra / Sparse Action Programs}
 \begin{document}
-\CaseCover
+\title{\CaseTitle}
+\author{\CaseAuthors}
+\date{\CaseDate}
+\maketitle
 \begin{abstract}
 We present Zyra, a CaseLab robot manipulation system built around a general-purpose vision-language model, measured RGB-D geometry, and sparse waypoint programs rather than a task-specific action policy. The model requests measurements, produces waypoints with explicit orientation and execution requirements, and uses physical feedback to revise its plan. No target-task demonstrations or task-specific model training are used. Open-agent v9 reached 1,794/2,000 (89.7\%) on full standard LIBERO evaluation; a targeted v9.1 knowledge-note change and reruns of 65 affected episodes produce a combined 1,800/2,000 (90.0\%), not a fresh full v9.1 run. On a stratified LIBERO-plus subset, v9 reached 1,560/2,014 (77.5\%), with viewpoint changes and long-horizon tasks as key weaknesses. Earlier LIBERO-PRO tests reached 268/300 across six position and task perturbation conditions. A separate fixed-skill agent has also been deployed for zero-shot pick-and-place on laboratory hardware. This report details the architecture, evaluation evidence, deployment, limitations and next-generation priorities.
 \end{abstract}
 \begin{casenote}\textbf{Evidence status (October 21, 2026).} The v9.1 LIBERO figure includes 1,935 reused v9 episodes and 65 targeted reruns. LIBERO-plus uses a stratified subset, not the full benchmark. Counted real-robot success statistics and controlled ablations remain pending.\end{casenote}
-\tableofcontents\clearpage
 \input{sections/introduction}
 \input{sections/method}
 \input{sections/evaluation}
