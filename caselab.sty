@@ -1,8 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{caselab}[2026/10/21 CaseLab Research paper identity]
-% Works with pdfLaTeX; no proprietary fonts and no dedicated cover.
+\ProvidesPackage{caselab}[2026/10/21 CaseLab Research, editorial paper layout]
 \RequirePackage{fontspec}
-\RequirePackage[margin=1in,headheight=16pt]{geometry}
+\RequirePackage[letterpaper,top=.86in,bottom=.86in,left=.94in,right=.94in,headheight=17pt,headsep=19pt,footskip=25pt]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -16,67 +15,66 @@
 \RequirePackage{caption}
 \RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
-\definecolor{CaseRed}{HTML}{B51F32}
-\definecolor{CaseBlack}{HTML}{222326}
-\definecolor{CaseMuted}{HTML}{66686D}
+\RequirePackage[most]{tcolorbox}
+\definecolor{CaseRed}{HTML}{AC1932}
+\definecolor{CaseBlack}{HTML}{212126}
+\definecolor{CaseMuted}{HTML}{58565A}
 \color{CaseBlack}
 \setmainfont{Linux Libertine O}[Ligatures=TeX]
 \setsansfont{Linux Libertine Display O}
-\setmonofont{Nimbus Mono PS}[Scale=.91]
-\newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
+\setmonofont{Nimbus Mono PS}[Scale=.90]
+\newfontfamily\casetype{Nimbus Mono PS}[Scale=.90]
 \newcommand{\CaseTitle}{Untitled}
 \newcommand{\CaseAuthors}{CaseLab}
 \newcommand{\CaseDate}{October 2026}
 \newcommand{\CaseNumber}{CL-TR-2026-01}
 \newcommand{\CaseShortTitle}{CaseLab Research}
-\newcommand{\CaseBrand}{\textcolor{CaseRed}{\texttt{\textbf{CASELAB}}}}
-% Brand is part of the paper's ordinary title block, not a separate title page.
+\newcommand{\CaseBrand}{{\casetype\bfseries\color{CaseRed}CASELAB}}
+% Title, author and abstract live on page one: never create a cover page.
 \makeatletter
 \renewcommand{\maketitle}{%
-\begin{center}
-{\fontsize{23}{28}\selectfont\bfseries\color{CaseBlack}\@title\par}
-\vspace{.42em}
-{\color{CaseRed}\rule{2.1cm}{1.3pt}\par}
-\vspace{.85em}
-{\normalsize\@author\par}
-\vspace{.4em}
-{\small\color{CaseMuted}\@date\par}
-\end{center}
-\vspace{.55em}
+\begingroup\parindent=0pt
+{\raggedright
+{\fontsize{25}{27.5}\selectfont\bfseries\color{CaseBlack}\@title\par}
+\vspace{10pt}
+{\fontsize{11}{13}\selectfont\@author\par}
+\vspace{3pt}
+{\fontsize{9.5}{11}\selectfont\casetype\color{CaseMuted}\@date\par}
+\vspace{12pt}
+{\color{CaseRed}\rule{\linewidth}{2pt}\par}
+}\endgroup
+\vspace{10pt}
 }
 \makeatother
-\pagestyle{fancy}\fancyhf{}
-\fancyhead[L]{{\footnotesize\CaseBrand}}
-\fancyhead[R]{{\scriptsize\ttfamily\color{CaseMuted}\CaseNumber}}
-\fancyfoot[C]{{\small\color{CaseMuted}\thepage}}
-\renewcommand{\headrulewidth}{0.85pt}
-\renewcommand{\footrulewidth}{0.45pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{{\fontsize{9}{10}\selectfont\CaseBrand}}
+\fancyhead[R]{{\casetype\scriptsize\color{CaseMuted}\CaseNumber}}
+\fancyfoot[L]{{\casetype\scriptsize\color{CaseMuted}\CaseShortTitle}}
+\fancyfoot[R]{{\casetype\small\bfseries\color{CaseRed}\thepage}}
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{.9pt}
 \renewcommand{\headrule}{\hbox to\headwidth{\color{CaseRed}\leaders\hrule height \headrulewidth\hfill}}
-\renewcommand{\footrule}{\hbox to\headwidth{\color{CaseMuted}\leaders\hrule height \footrulewidth\hfill}}
-\titleformat{\section}{\normalfont\large\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesection}}{.75em}{}
-\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesubsection}}{.7em}{}
-\titleformat{\subsubsection}{\normalfont\normalsize\itshape\color{CaseBlack}}{\thesubsubsection}{.7em}{}
-\titlespacing*{\section}{0pt}{1.6ex plus .7ex}{.7ex}
-\titlespacing*{\subsection}{0pt}{1.25ex plus .5ex}{.45ex}
-\captionsetup{font=small,labelfont={bf,color=CaseBlack},labelsep=period}
-\setlength{\parindent}{1.2em}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{CaseBlack}\leaders\hrule height \footrulewidth\hfill}}
+\titleformat{\section}{\normalfont\fontsize{14}{16}\selectfont\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesection}}{.7em}{}
+\titleformat{\subsection}{\normalfont\fontsize{11.5}{13}\selectfont\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesubsection}}{.65em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection}{.65em}{}
+\titlespacing*{\section}{0pt}{1.75ex plus .5ex}{.65ex}
+\titlespacing*{\subsection}{0pt}{1.35ex plus .35ex}{.45ex}
+\captionsetup{font=small,labelfont={bf,color=CaseBlack},labelsep=period,skip=4pt}
+\setlength{\parindent}{1.1em}
 \setlength{\parskip}{0pt}
 \setlength{\emergencystretch}{2em}
-\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
-\hypersetup{colorlinks=true,linkcolor=CaseRed,citecolor=CaseRed,urlcolor=CaseRed,
-pdftitle={CaseLab Research Technical Report}}
-
-
-% CaseLab abstract: quiet archival frame with a signature red spine.
-\RequirePackage[most]{tcolorbox}
+\linespread{.985}
+\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=3pt,parsep=0pt}
+\hypersetup{colorlinks=true,linkcolor=CaseRed,citecolor=CaseRed,urlcolor=CaseRed}
+% Strong but editorial: a square red outline and a restrained typewriter label.
 \tcbset{caselababstract/.style={
- enhanced,breakable,sharp corners,
- colback=white,colframe=CaseMuted!42,
- boxrule=.35pt,leftrule=2.2pt,
- borderline west={2.2pt}{0pt}{CaseRed},
- left=13pt,right=13pt,top=10pt,bottom=11pt,
- before skip=1.1em,after skip=1.15em,
- before upper={\noindent{\casetype\fontsize{9}{11}\selectfont\bfseries\color{CaseRed} ABSTRACT}\par\vspace{7pt}\noindent},
- fontupper=\small
+enhanced,breakable,sharp corners,
+colback=white,colframe=CaseRed,boxrule=1pt,
+left=12pt,right=12pt,top=10pt,bottom=10pt,
+before skip=0pt,after skip=14pt,
+before upper={\noindent{\casetype\fontsize{9.5}{11}\selectfont\bfseries\color{CaseRed}ABSTRACT}\par\vspace{5pt}\noindent},
+fontupper=\small
 }}
 \renewenvironment{abstract}{\begin{tcolorbox}[caselababstract]}{\end{tcolorbox}}
