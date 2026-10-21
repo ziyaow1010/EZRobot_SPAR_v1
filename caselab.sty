@@ -1,9 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{caselab}[2026/10/21 CaseLab technical report, NVIDIA Nemotron reference layout]
-% Layout reference: NVIDIA Nemotron 3 Super Technical Report (2026), page one.
-% CaseLab replaces the reference brand; Maryland orange-red replaces NVIDIA green.
+\ProvidesPackage{caselab}[2026/10/21 CaseLab Cosmos-style research report]
+% CaseLab uses the conventional research-paper hierarchy of the Cosmos 3 report.
+% This is a clean adaptation, not an identical proprietary NVIDIA template.
 \RequirePackage{fontspec}
-\RequirePackage[letterpaper,left=.93in,right=.93in,top=.80in,bottom=.83in,headheight=21pt,headsep=24pt,footskip=27pt]{geometry}
+\RequirePackage[letterpaper,margin=1in]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -15,12 +15,11 @@
 \RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{titlesec}
 \RequirePackage{caption}
-\RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
-\definecolor{CaseOrange}{HTML}{E85D1F}
-\definecolor{CaseBlack}{HTML}{151515}
-\definecolor{CaseRule}{HTML}{858585}
+\definecolor{CaseOrange}{HTML}{F36B21}
+\definecolor{CaseBlack}{HTML}{171717}
 \color{CaseBlack}
+% Keep the previously selected retro type family.
 \setmainfont{Linux Libertine O}[Ligatures=TeX]
 \setsansfont{Linux Libertine Display O}
 \setmonofont{Nimbus Mono PS}[Scale=.91]
@@ -31,44 +30,33 @@
 \newcommand{\CaseDate}{October 2026}
 \newcommand{\CaseNumber}{CL--TR--2026--01}
 \newcommand{\CaseShortTitle}{CaseLab Research}
-% NVIDIA reference: small logotype at upper left, date at upper right,
-% single hairline beneath, left-aligned coloured title, plain abstract.
-\newcommand{\CaseBrand}{{\fontsize{14}{16}\selectfont\bfseries\color{CaseBlack}CASE\textcolor{CaseOrange}{LAB}}}
 \makeatletter
 \renewcommand{\maketitle}{%
-\begingroup
-\parindent=0pt
-{\raggedright
-{\fontsize{23}{27}\selectfont\bfseries\color{CaseOrange}\@title\par}
-\vspace{17pt}
-{\fontsize{13}{15}\selectfont\color{CaseBlack}\@author\par}
-}\endgroup
-\vspace{23pt}
+\begin{center}
+{\fontsize{18}{21}\selectfont\bfseries\@title\par}
+\vspace{.85em}
+{\normalsize\@author\par}
+\vspace{.55em}
+{\small\@date\par}
+\end{center}
+\vspace{.7em}
 }
 \makeatother
-\pagestyle{fancy}\fancyhf{}
-\fancyhead[L]{\CaseBrand}
-\fancyhead[R]{{\fontsize{9.5}{11}\selectfont\color{CaseBlack}\CaseDate}}
-\fancyfoot[L]{{\fontsize{8.5}{10}\selectfont\color{CaseBlack}\copyright\ 2026 CaseLab. All rights reserved.}}
-\fancyfoot[R]{{\fontsize{9}{11}\selectfont\color{CaseBlack}\thepage}}
-\renewcommand{\headrulewidth}{.65pt}
-\renewcommand{\footrulewidth}{.65pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{CaseRule}\leaders\hrule height \headrulewidth\hfill}}
-\renewcommand{\footrule}{\hbox to\headwidth{\color{CaseRule}\leaders\hrule height \footrulewidth\hfill}}
-\titleformat{\section}{\normalfont\fontsize{13}{15}\selectfont\bfseries\color{CaseBlack}}{\thesection.}{.55em}{}
-\titleformat{\subsection}{\normalfont\fontsize{11.5}{13.5}\selectfont\bfseries\color{CaseBlack}}{\thesubsection.}{.55em}{}
-\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection.}{.55em}{}
-\titlespacing*{\section}{0pt}{2.0ex plus .5ex}{1.0ex}
-\titlespacing*{\subsection}{0pt}{1.4ex plus .35ex}{.65ex}
-\captionsetup{font=small,labelfont=bf,labelsep=period,skip=4pt}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{.42em}
+% Cosmos-paper layout: no separate cover, logo bar, decorative rules or TOC.
+\pagestyle{plain}
+\titleformat{\section}{\normalfont\large\bfseries\color{CaseBlack}}{\textcolor{CaseOrange}{\thesection}}{.7em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\textcolor{CaseOrange}{\thesubsection}}{.7em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection}{.65em}{}
+\titlespacing*{\section}{0pt}{1.5ex plus .5ex}{.7ex}
+\titlespacing*{\subsection}{0pt}{1.2ex plus .4ex}{.5ex}
+\captionsetup{font=small,labelfont=bf,labelsep=period,skip=5pt}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0pt}
 \setlength{\emergencystretch}{2em}
-\linespread{1.0}
-\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=3pt,parsep=0pt}
-\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
-% NVIDIA reference abstract: unboxed heading, regular text in document width.
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
+\hypersetup{colorlinks=true,linkcolor=CaseOrange,citecolor=CaseOrange,urlcolor=CaseOrange}
 \renewenvironment{abstract}{%
-\par\vspace{0pt}\noindent{\fontsize{13}{15}\selectfont\bfseries Abstract.}\par
-\nobreak\vspace{3pt}\noindent\ignorespaces
-}{\par\vspace{18pt}}
+\begin{center}\bfseries Abstract\end{center}
+\begin{list}{}{\leftmargin=1.3em\rightmargin=1.3em}
+\item\relax\small\noindent\ignorespaces
+}{\end{list}\vspace{.5em}}
