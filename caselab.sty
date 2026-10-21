@@ -26,7 +26,11 @@
 \setsansfont{Linux Libertine Display O}
 \setmonofont{Nimbus Mono PS}[Scale=.91]
 \newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
-\newfontfamily\casetitle{Latin Modern Mono}[Scale=MatchLowercase,FakeBold=1.5,FakeStretch=0.83]
+\IfFontExistsTF{Rockwell}{%
+  \newfontfamily\casetitle{Rockwell}[BoldFont={Rockwell Bold}]%
+}{%
+  \newfontfamily\casetitle{Roboto Slab}[BoldFont={Roboto Slab Bold}]%
+}
 \newcommand{\zyra}{Zyra}
 \newcommand{\CaseTitle}{Untitled}
 \newcommand{\CaseAuthors}{CaseLab}
@@ -53,7 +57,7 @@
 \thispagestyle{caselabfirst}
 \begingroup\parindent=0pt
 {\raggedright
-{\casetitle\fontsize{20}{23}\selectfont\color{CaseOrange}\@title\par}
+{\casetitle\fontsize{23}{27}\selectfont\bfseries\color{CaseOrange}\@title\par}
 \vspace{13pt}
 {\fontsize{12}{14}\selectfont\bfseries\color{CaseBlack}\@author\par}
 }\endgroup
