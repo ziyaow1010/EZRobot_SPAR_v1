@@ -6,7 +6,7 @@ Product name: Zyra. Agreed title: **Zyra: A Zero-Shot Robot Manipulation Agent w
 
 The central claim is a VLM-centered alternative to VLA and WAM architectures: measured geometry and sparse programs connect a general-purpose foundation model to robot execution. The vision is broader than the evidence of the first-generation report. The report leads with the route, followed by zero-shot capability and robustness, then deployment economics.
 
-The title, EZRobot branding, and the existing sole author are provisional; supply the legal company name, full authorship, affiliations, contact information, and release URL before publication. No additional author identity is guessed.
+The title, CaseLab branding, and the existing sole author are provisional; supply the legal company name, full authorship, affiliations, contact information, and release URL before publication. No additional author identity is guessed.
 
 ## Sources used
 
@@ -42,3 +42,7 @@ Formal measurement provenance, collision guarantees, and contact-force interpret
 Execution issues from the earlier code review should be tracked as engineering work rather than part of the product story: nominal waypoint validation does not recheck the extra 10 cm until-blocked target, and an ordinary waypoint abort may still apply that waypoint's gripper transition before skipping subsequent moves. The real backend has a separate workspace guard. These are not claimed causes of all recorded failures.
 
 Overleaf's GitHub integration may require an explicit pull after a GitHub merge. No automatic synchronization is assumed.
+
+## October 21 2026 update
+
+CaseLab is the lab publication identity; Zyra remains the system name. Full standard LIBERO and stratified open-agent LIBERO-plus results from the latest SPAR README are now summarized in the manuscript. The v9.1 result combines 65 targeted reruns with 1,935 reused episodes. Compile using XeLaTeX.

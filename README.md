@@ -1,13 +1,5 @@
-# EZRobot Zyra v1 technical report
+# CaseLab — Zyra Technical Report
 
-English first draft of the first-generation Zyra technical report. Open `main.tex` in Overleaf and select pdfLaTeX. Section sources are under `sections/`; references are in `references.bib`.
+CaseLab publication identity with historical book typography, red technical accents, and typewriter-style labels is implemented in `caselab.sty`. Compile `main.tex` using **XeLaTeX** in Overleaf.
 
-Local build:
-
-```bash
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build main.tex
-```
-
-The draft uses recorded open-agent v9 results from the supplied SPAR snapshot. It separately identifies the earlier pick-and-place agent and its real-robot deployment. Pending measurements are described explicitly rather than filled with estimated results.
-
-See `EDITOR_NOTES.md` for evidence provenance and the remaining author inputs.
+The original long-form manuscript sections remain included. Updated October 2026 results: standard LIBERO v9 1,794/2,000 (89.7%), v9.1 combined 1,800/2,000 (90.0%, 65 targeted reruns); LIBERO-plus stratified subset v9 1,560/2,014 (77.5%, not the full benchmark). Code and evaluations: https://github.com/ziyaow1010/SPAR
