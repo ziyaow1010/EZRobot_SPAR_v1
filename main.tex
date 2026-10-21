@@ -1,5 +1,35 @@
 %!TEX program = xelatex
 \documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\hypersetup{pdftitle={Zyra: A Zero-Shot Robot Manipulation Agent with Sparse Action Programs},pdfauthor={Ziyao Wang},pdfsubject={EZRobot first-generation system technical report draft}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small EZRobot \textbar\ Zyra v1}
+\rhead{\small Technical report draft}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
+\newcommand{\zyra}{Zyra}
+\newcommand{\draftnote}[1]{\par\smallskip\noindent\fcolorbox{orange!40}{orange!6}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small\textbf{Draft status.} #1}}\par\smallskip}
+
+\title{\textbf{Zyra: A Zero-Shot Robot Manipulation Agent\\with Sparse Action Programs}\\[0.5em]\large EZRobot First-Generation System Technical Report}
+\author{EZRobot}
+\date{October 2026}
+
 \usepackage{caselab}
 \renewcommand{\CaseTitle}{Zyra: A Zero-Shot Robot Manipulation Agent with Sparse Action Programs}
 \renewcommand{\CaseAuthors}{Ziyao Wang\\CaseLab}
