@@ -1,7 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{caselab}[2026/10/21 CaseLab Research, editorial paper layout]
+\ProvidesPackage{caselab}[2026/10/21 CaseLab technical report, NVIDIA Nemotron reference layout]
+% Layout reference: NVIDIA Nemotron 3 Super Technical Report (2026), page one.
+% CaseLab replaces the reference brand; Maryland orange-red replaces NVIDIA green.
 \RequirePackage{fontspec}
-\RequirePackage[letterpaper,top=.86in,bottom=.86in,left=.94in,right=.94in,headheight=17pt,headsep=19pt,footskip=25pt]{geometry}
+\RequirePackage[letterpaper,left=.93in,right=.93in,top=.80in,bottom=.83in,headheight=21pt,headsep=24pt,footskip=27pt]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -15,67 +17,58 @@
 \RequirePackage{caption}
 \RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
-\RequirePackage[most]{tcolorbox}
-\definecolor{CaseRed}{HTML}{E21833}
-\definecolor{CaseBlack}{HTML}{212126}
-\definecolor{CaseMuted}{HTML}{58565A}
+\definecolor{CaseOrange}{HTML}{E85D1F}
+\definecolor{CaseBlack}{HTML}{151515}
+\definecolor{CaseRule}{HTML}{858585}
 \color{CaseBlack}
 \setmainfont{Linux Libertine O}[Ligatures=TeX]
 \setsansfont{Linux Libertine Display O}
-\setmonofont{Nimbus Mono PS}[Scale=.90]
-\newfontfamily\casetype{Nimbus Mono PS}[Scale=.90]
+\setmonofont{Nimbus Mono PS}[Scale=.91]
+\newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
 \newcommand{\zyra}{Zyra}
 \newcommand{\CaseTitle}{Untitled}
 \newcommand{\CaseAuthors}{CaseLab}
 \newcommand{\CaseDate}{October 2026}
-\newcommand{\CaseNumber}{CL-TR-2026-01}
+\newcommand{\CaseNumber}{CL--TR--2026--01}
 \newcommand{\CaseShortTitle}{CaseLab Research}
-\newcommand{\CaseBrand}{{\casetype\bfseries\color{CaseRed}CASELAB}}
-% Title, author and abstract live on page one: never create a cover page.
+% NVIDIA reference: small logotype at upper left, date at upper right,
+% single hairline beneath, left-aligned coloured title, plain abstract.
+\newcommand{\CaseBrand}{{\fontsize{14}{16}\selectfont\bfseries\color{CaseBlack}CASE\textcolor{CaseOrange}{LAB}}}
 \makeatletter
 \renewcommand{\maketitle}{%
-\begingroup\parindent=0pt
+\begingroup
+\parindent=0pt
 {\raggedright
-{\fontsize{25}{27.5}\selectfont\bfseries\color{CaseRed}\@title\par}
-\vspace{10pt}
-{\fontsize{11}{13}\selectfont\@author\par}
-\vspace{3pt}
-{\fontsize{9.5}{11}\selectfont\casetype\color{CaseMuted}\@date\par}
-\vspace{12pt}
-{\color{CaseRed}\rule{\linewidth}{2pt}\par}
+{\fontsize{23}{27}\selectfont\bfseries\color{CaseOrange}\@title\par}
+\vspace{17pt}
+{\fontsize{13}{15}\selectfont\color{CaseBlack}\@author\par}
 }\endgroup
-\vspace{10pt}
+\vspace{23pt}
 }
 \makeatother
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{{\fontsize{9}{10}\selectfont\CaseBrand}}
-\fancyhead[R]{{\casetype\scriptsize\color{CaseMuted}\CaseNumber}}
-\fancyfoot[L]{{\casetype\scriptsize\color{CaseMuted}\CaseShortTitle}}
-\fancyfoot[R]{{\casetype\small\bfseries\color{CaseRed}\thepage}}
-\renewcommand{\headrulewidth}{1.5pt}
-\renewcommand{\footrulewidth}{.9pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{CaseRed}\leaders\hrule height \headrulewidth\hfill}}
-\renewcommand{\footrule}{\hbox to\headwidth{\color{CaseBlack}\leaders\hrule height \footrulewidth\hfill}}
-\titleformat{\section}{\normalfont\fontsize{14}{16}\selectfont\bfseries\color{CaseRed}}{\textcolor{CaseRed}{\thesection}}{.7em}{}
-\titleformat{\subsection}{\normalfont\fontsize{11.5}{13}\selectfont\bfseries\color{CaseRed}}{\textcolor{CaseRed}{\thesubsection}}{.65em}{}
-\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection}{.65em}{}
-\titlespacing*{\section}{0pt}{1.75ex plus .5ex}{.65ex}
-\titlespacing*{\subsection}{0pt}{1.35ex plus .35ex}{.45ex}
-\captionsetup{font=small,labelfont={bf,color=CaseBlack},labelsep=period,skip=4pt}
-\setlength{\parindent}{1.1em}
-\setlength{\parskip}{0pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\CaseBrand}
+\fancyhead[R]{{\fontsize{9.5}{11}\selectfont\color{CaseBlack}\CaseDate}}
+\fancyfoot[L]{{\fontsize{8.5}{10}\selectfont\color{CaseBlack}\copyright\ 2026 CaseLab. All rights reserved.}}
+\fancyfoot[R]{{\fontsize{9}{11}\selectfont\color{CaseBlack}\thepage}}
+\renewcommand{\headrulewidth}{.65pt}
+\renewcommand{\footrulewidth}{.65pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{CaseRule}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{CaseRule}\leaders\hrule height \footrulewidth\hfill}}
+\titleformat{\section}{\normalfont\fontsize{13}{15}\selectfont\bfseries\color{CaseBlack}}{\thesection.}{.55em}{}
+\titleformat{\subsection}{\normalfont\fontsize{11.5}{13.5}\selectfont\bfseries\color{CaseBlack}}{\thesubsection.}{.55em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection.}{.55em}{}
+\titlespacing*{\section}{0pt}{2.0ex plus .5ex}{1.0ex}
+\titlespacing*{\subsection}{0pt}{1.4ex plus .35ex}{.65ex}
+\captionsetup{font=small,labelfont=bf,labelsep=period,skip=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{.42em}
 \setlength{\emergencystretch}{2em}
-\linespread{.985}
+\linespread{1.0}
 \setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=3pt,parsep=0pt}
-\hypersetup{colorlinks=true,linkcolor=CaseRed,citecolor=CaseRed,urlcolor=CaseRed}
-% Strong but editorial: a square red outline and a restrained typewriter label.
-\tcbset{caselababstract/.style={
-enhanced,breakable,sharp corners,
-colback=white,colframe=CaseRed,boxrule=1pt,
-left=12pt,right=12pt,top=10pt,bottom=10pt,
-before skip=0pt,after skip=14pt,
-before upper={\noindent{\casetype\fontsize{9.5}{11}\selectfont\bfseries\color{CaseRed}ABSTRACT}\par\vspace{5pt}\noindent},
-fontupper=\small
-}}
-\renewenvironment{abstract}{\begin{tcolorbox}[caselababstract]}{\end{tcolorbox}}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+% NVIDIA reference abstract: unboxed heading, regular text in document width.
+\renewenvironment{abstract}{%
+\par\vspace{0pt}\noindent{\fontsize{13}{15}\selectfont\bfseries Abstract.}\par
+\nobreak\vspace{3pt}\noindent\ignorespaces
+}{\par\vspace{18pt}}
