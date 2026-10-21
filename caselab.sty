@@ -38,7 +38,14 @@
 \newcommand{\CaseNumber}{CL--TR--2026--01}
 \newcommand{\CaseShortTitle}{CaseLab Research}
 % Wordmark occupies the same position as the logo in the Cosmos reference.
-\newcommand{\CaseBrand}{{\sffamily\fontsize{21}{23}\selectfont\bfseries Case\textcolor{CaseOrange}{Lab}}}
+\newcommand{\CaseBrand}{%
+  \begingroup
+  \setlength{\fboxsep}{0pt}%
+  \raisebox{-2.5pt}{\colorbox{CaseOrange}{\makebox[20pt][c]{\rule{0pt}{20pt}{\color{white}\casetitle\fontsize{15}{17}\selectfont\bfseries C}}}}%
+  \hspace{7pt}%
+  {\casetitle\fontsize{15}{18}\selectfont\bfseries\color{CaseBlack}CASELAB}%
+  \endgroup
+}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[C]{{\fontsize{10}{12}\selectfont\CaseShortTitle}}
