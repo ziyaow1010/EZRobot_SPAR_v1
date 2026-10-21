@@ -1,0 +1,63 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{caselab}[2026/10/21 CaseLab publication identity]
+\RequirePackage{fontspec}
+\RequirePackage[margin=1in,headheight=18pt]{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{caption}
+\RequirePackage{booktabs,tabularx,array}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{microtype}
+\RequirePackage{enumitem}
+\RequirePackage[numbers,sort&compress]{natbib}
+\RequirePackage{hyperref}
+\RequirePackage{tcolorbox}
+\RequirePackage{graphicx}
+\definecolor{CaseRed}{HTML}{B7192F}
+\definecolor{CaseBlack}{HTML}{202126}
+\definecolor{CaseMuted}{HTML}{696B71}
+\definecolor{CasePaper}{HTML}{F6F3F1}
+\color{CaseBlack}
+\setmainfont{Linux Libertine O}[Ligatures=TeX]
+\setsansfont{Linux Libertine Display O}
+\setmonofont{Nimbus Mono PS}[Scale=.91]
+\newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
+\newfontfamily\casedisplay{Linux Libertine Display O}
+\newcommand{\CaseTitle}{Untitled}
+\newcommand{\CaseAuthors}{CaseLab}
+\newcommand{\CaseDate}{October 2026}
+\newcommand{\CaseNumber}{CL--TR--2026--01}
+\newcommand{\CaseShortTitle}{CaseLab Research}
+\newcommand{\CaseCover}{%
+\begin{titlepage}\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+\fill[CaseBlack] (current page.north west) rectangle (current page.south east);
+\fill[CaseRed] ([yshift=-.68in]current page.north west) rectangle ([xshift=1.2in,yshift=-.75in]current page.north west);
+\draw[CaseRed,line width=1.3pt] ([xshift=1in,yshift=-2in]current page.north west)--([xshift=7.5in,yshift=-2in]current page.north west);
+\end{tikzpicture}
+\vspace*{.85in}
+{\color{white}\casetype\large CASELAB}\hfill{\color{white!60}\casetype\small RESEARCH / ENGINEERING}\par
+\vspace{.82in}{\color{CaseRed}\casetype TECHNICAL REPORT\quad/\quad\CaseNumber}\par\vspace{.3in}
+{\color{white}\casedisplay\fontsize{36}{42}\selectfont\bfseries\CaseTitle\par}
+\vfill{\color{white!60}\casetype AUTHORS}\par{\color{white}\large\CaseAuthors}\par
+\vspace{.28in}{\color{white!60}\casetype DATE}\par{\color{white}\CaseDate}\par\vspace{.7in}
+\end{titlepage}\clearpage}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{{\casetype\scriptsize\color{CaseRed}CASELAB}}
+\fancyhead[R]{{\casetype\scriptsize\color{CaseMuted}\CaseNumber}}
+\fancyfoot[L]{{\casetype\scriptsize\color{CaseMuted}\CaseShortTitle}}
+\fancyfoot[R]{{\casetype\scriptsize\color{CaseRed}\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\titleformat{\section}{\casedisplay\LARGE\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\casetype\normalsize\thesection}}{.8em}{}[\vspace{3pt}{\color{CaseRed}\titlerule[.8pt]}]
+\titleformat{\subsection}{\casedisplay\large\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\casetype\small\thesubsection}}{.8em}{}
+\titleformat{\subsubsection}{\casetype\normalsize\bfseries\color{CaseBlack}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{2em}{.9em}
+\titlespacing*{\subsection}{0pt}{1.2em}{.48em}
+\captionsetup{font=small,labelfont={bf,color=CaseRed},labelsep=period,justification=raggedright,singlelinecheck=false}
+\setlength{\parindent}{0pt}\setlength{\parskip}{.38em}\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.5em,topsep=3pt,itemsep=2pt}
+\hypersetup{colorlinks=true,linkcolor=CaseRed,citecolor=CaseRed,urlcolor=CaseRed}
+\newtcolorbox{casenote}{colback=CasePaper,colframe=CaseRed,leftrule=3pt,toprule=0pt,bottomrule=0pt,rightrule=0pt,arc=0pt,left=11pt,right=11pt}
