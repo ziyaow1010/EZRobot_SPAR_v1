@@ -1,42 +1,18 @@
+%!TEX program = xelatex
 \documentclass[11pt]{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[margin=1in]{geometry}
-\usepackage{microtype}
-\usepackage{amsmath,amssymb}
-\usepackage{graphicx,booktabs,tabularx,array}
-\usepackage{enumitem}
-\usepackage[numbers,sort&compress]{natbib}
-\usepackage{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
-\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
-\hypersetup{pdftitle={Zyra: A Zero-Shot Robot Manipulation Agent with Sparse Action Programs},pdfauthor={Ziyao Wang},pdfsubject={EZRobot first-generation system technical report draft}}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{\small EZRobot \textbar\ Zyra v1}
-\rhead{\small Technical report draft}
-\cfoot{\thepage}
-\setlength{\headheight}{14pt}
-\setlength{\emergencystretch}{2em}
-\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
-\newcommand{\zyra}{Zyra}
-\newcommand{\draftnote}[1]{\par\smallskip\noindent\fcolorbox{orange!40}{orange!6}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small\textbf{Draft status.} #1}}\par\smallskip}
-
-\title{\textbf{Zyra: A Zero-Shot Robot Manipulation Agent\\with Sparse Action Programs}\\[0.5em]\large EZRobot First-Generation System Technical Report}
-\author{Ziyao Wang\\EZRobot}
-\date{October 2026}
-
+\usepackage{caselab}
+\renewcommand{\CaseTitle}{Zyra: A Zero-Shot Robot Manipulation Agent with Sparse Action Programs}
+\renewcommand{\CaseAuthors}{Ziyao Wang\\CaseLab}
+\renewcommand{\CaseDate}{October 2026}
+\renewcommand{\CaseNumber}{CL--TR--2026--01}
+\renewcommand{\CaseShortTitle}{Zyra / Sparse Action Programs}
 \begin{document}
-\maketitle
+\CaseCover
 \begin{abstract}
-We present \zyra, the first-generation EZRobot manipulation system, built around a general-purpose vision-language model (VLM) rather than a vision-language-action (VLA) policy or a world action model (WAM). Our premise is that robots can acquire broad task competence by combining a foundation model's understanding and program-generation capabilities with measured geometry and closed-loop execution. \zyra\ provides the model with a numbered scene, a table of RGB-D-derived object geometry, and an on-demand measurement interface. The model produces sparse waypoint programs with explicit orientation, gripper, precision, and failure-handling requirements. Execution returns physical feedback for verification and replanning. The system uses no target-task demonstrations or task-specific model training. The current open agent achieves 89/100 successes across four LIBERO suites and 268/300 on six LIBERO-PRO position and task perturbation conditions, with approximately four model calls per episode. Its reported position and task averages are 87.3\% and 91.3\%, compared with published GPT-5.4/Guava-harness averages of 45\% and 44\%; these are cross-system comparisons with different models and evaluation sample sizes. A shared perception and control stack has also been deployed for zero-shot pick-and-place in a real laboratory. This report describes the architecture, available evaluation evidence, deployment experience, and the inference-cost and latency constraints that shape the next generation.
+We present Zyra, a CaseLab robot manipulation system built around a general-purpose vision-language model, measured RGB-D geometry, and sparse waypoint programs rather than a task-specific action policy. The model requests measurements, produces waypoints with explicit orientation and execution requirements, and uses physical feedback to revise its plan. No target-task demonstrations or task-specific model training are used. Open-agent v9 reached 1,794/2,000 (89.7\%) on full standard LIBERO evaluation; a targeted v9.1 knowledge-note change and reruns of 65 affected episodes produce a combined 1,800/2,000 (90.0\%), not a fresh full v9.1 run. On a stratified LIBERO-plus subset, v9 reached 1,560/2,014 (77.5\%), with viewpoint changes and long-horizon tasks as key weaknesses. Earlier LIBERO-PRO tests reached 268/300 across six position and task perturbation conditions. A separate fixed-skill agent has also been deployed for zero-shot pick-and-place on laboratory hardware. This report details the architecture, evaluation evidence, deployment, limitations and next-generation priorities.
 \end{abstract}
-
-\draftnote{Working manuscript based on the implementation snapshot supplied on October 8, 2026. Simulation tables reproduce the recorded v9 evaluations. Full-scale evaluation, current open-agent LIBERO-Plus results, real-robot trial statistics, and the complete author list remain to be incorporated.}
-
+\begin{casenote}\textbf{Evidence status (October 21, 2026).} The v9.1 LIBERO figure includes 1,935 reused v9 episodes and 65 targeted reruns. LIBERO-plus uses a stratified subset, not the full benchmark. Counted real-robot success statistics and controlled ablations remain pending.\end{casenote}
+\tableofcontents\clearpage
 \input{sections/introduction}
 \input{sections/method}
 \input{sections/evaluation}
