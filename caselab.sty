@@ -1,10 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{caselab}[2026/10/21 CaseLab Research paper identity]
 % Works with pdfLaTeX; no proprietary fonts and no dedicated cover.
-\RequirePackage[T1]{fontenc}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage{mathpazo}
-\RequirePackage[scaled=.88]{courier}
+\RequirePackage{fontspec}
 \RequirePackage[margin=1in,headheight=16pt]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
@@ -23,6 +20,10 @@
 \definecolor{CaseBlack}{HTML}{222326}
 \definecolor{CaseMuted}{HTML}{66686D}
 \color{CaseBlack}
+\setmainfont{Linux Libertine O}[Ligatures=TeX]
+\setsansfont{Linux Libertine Display O}
+\setmonofont{Nimbus Mono PS}[Scale=.91]
+\newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
 \newcommand{\CaseTitle}{Untitled}
 \newcommand{\CaseAuthors}{CaseLab}
 \newcommand{\CaseDate}{October 2026}
