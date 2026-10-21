@@ -26,6 +26,7 @@
 \setsansfont{Linux Libertine Display O}
 \setmonofont{Nimbus Mono PS}[Scale=.91]
 \newfontfamily\casetype{Nimbus Mono PS}[Scale=.91]
+\newfontfamily\casetitle{Latin Modern Mono}[Scale=MatchLowercase,FakeBold=1.5,FakeStretch=0.83]
 \newcommand{\zyra}{Zyra}
 \newcommand{\CaseTitle}{Untitled}
 \newcommand{\CaseAuthors}{CaseLab}
@@ -52,11 +53,11 @@
 \thispagestyle{caselabfirst}
 \begingroup\parindent=0pt
 {\raggedright
-{\casetype\fontsize{23}{27}\selectfont\bfseries\color{CaseOrange}\@title\par}
-\vspace{24pt}
+{\casetitle\fontsize{20}{23}\selectfont\color{CaseOrange}\@title\par}
+\vspace{13pt}
 {\fontsize{12}{14}\selectfont\bfseries\color{CaseBlack}\@author\par}
 }\endgroup
-\vspace{40pt}
+\vspace{23pt}
 }
 \makeatother
 \titleformat{\section}{\normalfont\fontsize{17}{19}\selectfont\bfseries\color{CaseBlack}}{\thesection.}{.65em}{}
