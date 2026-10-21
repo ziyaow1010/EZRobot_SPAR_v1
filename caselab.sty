@@ -16,7 +16,7 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
 \RequirePackage[most]{tcolorbox}
-\definecolor{CaseRed}{HTML}{AC1932}
+\definecolor{CaseRed}{HTML}{E21833}
 \definecolor{CaseBlack}{HTML}{212126}
 \definecolor{CaseMuted}{HTML}{58565A}
 \color{CaseBlack}
@@ -36,7 +36,7 @@
 \renewcommand{\maketitle}{%
 \begingroup\parindent=0pt
 {\raggedright
-{\fontsize{25}{27.5}\selectfont\bfseries\color{CaseBlack}\@title\par}
+{\fontsize{25}{27.5}\selectfont\bfseries\color{CaseRed}\@title\par}
 \vspace{10pt}
 {\fontsize{11}{13}\selectfont\@author\par}
 \vspace{3pt}
@@ -57,8 +57,8 @@
 \renewcommand{\footrulewidth}{.9pt}
 \renewcommand{\headrule}{\hbox to\headwidth{\color{CaseRed}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrule}{\hbox to\headwidth{\color{CaseBlack}\leaders\hrule height \footrulewidth\hfill}}
-\titleformat{\section}{\normalfont\fontsize{14}{16}\selectfont\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesection}}{.7em}{}
-\titleformat{\subsection}{\normalfont\fontsize{11.5}{13}\selectfont\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesubsection}}{.65em}{}
+\titleformat{\section}{\normalfont\fontsize{14}{16}\selectfont\bfseries\color{CaseRed}}{\textcolor{CaseRed}{\thesection}}{.7em}{}
+\titleformat{\subsection}{\normalfont\fontsize{11.5}{13}\selectfont\bfseries\color{CaseRed}}{\textcolor{CaseRed}{\thesubsection}}{.65em}{}
 \titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection}{.65em}{}
 \titlespacing*{\section}{0pt}{1.75ex plus .5ex}{.65ex}
 \titlespacing*{\subsection}{0pt}{1.35ex plus .35ex}{.45ex}
