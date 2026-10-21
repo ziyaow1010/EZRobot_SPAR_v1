@@ -49,8 +49,10 @@
 \fancyhead[L]{{\footnotesize\CaseBrand}}
 \fancyhead[R]{{\scriptsize\ttfamily\color{CaseMuted}\CaseNumber}}
 \fancyfoot[C]{{\small\color{CaseMuted}\thepage}}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrulewidth}{0.85pt}
+\renewcommand{\footrulewidth}{0.45pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{CaseRed}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{CaseMuted}\leaders\hrule height \footrulewidth\hfill}}
 \titleformat{\section}{\normalfont\large\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesection}}{.75em}{}
 \titleformat{\subsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\textcolor{CaseRed}{\thesubsection}}{.7em}{}
 \titleformat{\subsubsection}{\normalfont\normalsize\itshape\color{CaseBlack}}{\thesubsubsection}{.7em}{}
