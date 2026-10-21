@@ -65,3 +65,18 @@
 \setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
 \hypersetup{colorlinks=true,linkcolor=CaseRed,citecolor=CaseRed,urlcolor=CaseRed,
 pdftitle={CaseLab Research Technical Report}}
+
+
+% CaseLab abstract: quiet archival frame with a signature red spine.
+\RequirePackage[most]{tcolorbox}
+\tcbset{caselababstract/.style={
+ enhanced,breakable,sharp corners,
+ colback=white,colframe=CaseMuted!42,
+ boxrule=.35pt,leftrule=2.2pt,
+ borderline west={2.2pt}{0pt}{CaseRed},
+ left=13pt,right=13pt,top=10pt,bottom=11pt,
+ before skip=1.1em,after skip=1.15em,
+ before upper={\noindent{\casetype\fontsize{9}{11}\selectfont\bfseries\color{CaseRed} ABSTRACT}\par\vspace{7pt}\noindent},
+ fontupper=\small
+}}
+\renewenvironment{abstract}{\begin{tcolorbox}[caselababstract]}{\end{tcolorbox}}
