@@ -1,9 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{caselab}[2026/10/21 CaseLab Cosmos-style research report]
-% CaseLab uses the conventional research-paper hierarchy of the Cosmos 3 report.
-% This is a clean adaptation, not an identical proprietary NVIDIA template.
+\ProvidesPackage{caselab}[2026/10/21 CaseLab Cosmos 3 reference layout]
+% Visual structure follows the user-provided Cosmos 3 report screenshots.
+% No cover, contents page, abstract frame, or decorative title underline.
 \RequirePackage{fontspec}
-\RequirePackage[letterpaper,margin=1in]{geometry}
+\RequirePackage[letterpaper,left=.77in,right=.77in,top=.91in,bottom=.76in,headheight=24pt,headsep=19pt]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -15,11 +15,13 @@
 \RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{titlesec}
 \RequirePackage{caption}
+\RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
+% Maryland-inspired orange replacing NVIDIA's green in the reference.
 \definecolor{CaseOrange}{HTML}{F36B21}
-\definecolor{CaseBlack}{HTML}{171717}
+\definecolor{CaseBlack}{HTML}{121212}
+\definecolor{CaseGrey}{HTML}{888888}
 \color{CaseBlack}
-% Keep the previously selected retro type family.
 \setmainfont{Linux Libertine O}[Ligatures=TeX]
 \setsansfont{Linux Libertine Display O}
 \setmonofont{Nimbus Mono PS}[Scale=.91]
@@ -30,33 +32,48 @@
 \newcommand{\CaseDate}{October 2026}
 \newcommand{\CaseNumber}{CL--TR--2026--01}
 \newcommand{\CaseShortTitle}{CaseLab Research}
+% Wordmark occupies the same position as the logo in the Cosmos reference.
+\newcommand{\CaseBrand}{{\sffamily\fontsize{21}{23}\selectfont\bfseries Case\textcolor{CaseOrange}{Lab}}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{{\fontsize{10}{12}\selectfont\CaseShortTitle}}
+\renewcommand{\headrulewidth}{.8pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{CaseGrey}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{caselabfirst}{%
+\fancyhf{}
+\fancyhead[L]{\CaseBrand}
+\fancyhead[R]{{\fontsize{10}{12}\selectfont\itshape\CaseDate}}
+\renewcommand{\headrulewidth}{.8pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{CaseGrey}\leaders\hrule height \headrulewidth\hfill}}
+}
 \makeatletter
 \renewcommand{\maketitle}{%
-\begin{center}
-{\fontsize{18}{21}\selectfont\bfseries\@title\par}
-\vspace{.85em}
-{\normalsize\@author\par}
-\vspace{.55em}
-{\small\@date\par}
-\end{center}
-\vspace{.7em}
+\thispagestyle{caselabfirst}
+\begingroup\parindent=0pt
+{\raggedright
+{\fontsize{25}{29}\selectfont\bfseries\color{CaseOrange}\@title\par}
+\vspace{24pt}
+{\fontsize{12}{14}\selectfont\bfseries\color{CaseBlack}\@author\par}
+}\endgroup
+\vspace{40pt}
 }
 \makeatother
-% Cosmos-paper layout: no separate cover, logo bar, decorative rules or TOC.
-\pagestyle{plain}
-\titleformat{\section}{\normalfont\large\bfseries\color{CaseBlack}}{\textcolor{CaseOrange}{\thesection}}{.7em}{}
-\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\textcolor{CaseOrange}{\thesubsection}}{.7em}{}
-\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection}{.65em}{}
-\titlespacing*{\section}{0pt}{1.5ex plus .5ex}{.7ex}
-\titlespacing*{\subsection}{0pt}{1.2ex plus .4ex}{.5ex}
+\titleformat{\section}{\normalfont\fontsize{17}{19}\selectfont\bfseries\color{CaseBlack}}{\thesection.}{.65em}{}
+\titleformat{\subsection}{\normalfont\fontsize{12.5}{15}\selectfont\bfseries\color{CaseBlack}}{\thesubsection.}{.65em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{CaseBlack}}{\thesubsubsection.}{.65em}{}
+\titlespacing*{\section}{0pt}{2ex plus .6ex}{.8ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus .5ex}{.5ex}
 \captionsetup{font=small,labelfont=bf,labelsep=period,skip=5pt}
-\setlength{\parindent}{1.25em}
-\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{.75em}
 \setlength{\emergencystretch}{2em}
-\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=4pt}
+\linespread{1.035}
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=3pt}
 \hypersetup{colorlinks=true,linkcolor=CaseOrange,citecolor=CaseOrange,urlcolor=CaseOrange}
+% Cosmos reference: black heading, bold black abstract body, no box.
 \renewenvironment{abstract}{%
-\begin{center}\bfseries Abstract\end{center}
-\begin{list}{}{\leftmargin=1.3em\rightmargin=1.3em}
-\item\relax\small\noindent\ignorespaces
-}{\end{list}\vspace{.5em}}
+\par\noindent{\fontsize{17}{20}\selectfont\bfseries Abstract\par}
+\vspace{12pt}
+\begingroup\bfseries\fontsize{11.5}{14.5}\selectfont\noindent\ignorespaces
+}{\par\endgroup\vspace{22pt}}
